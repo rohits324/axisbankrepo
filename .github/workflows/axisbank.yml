@@ -16,7 +16,7 @@ jobs:
             - name: Setup jave
               uses: actions/setup-java@v4
               with: 
-                version: '17'
+                java-version: '17'
                 distribution: 'temurin'
 
             - name: Build and test
