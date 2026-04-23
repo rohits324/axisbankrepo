@@ -1,0 +1,20 @@
+name: Axis bank Application Deplyment
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+
+            - name: checkout code
+              uses: actions/checkout@v4
+
+            - name: print
+              run: echo "This is for testing purpose"
+
+            - name: testing 1
+              run: |
+                echo "Working"
