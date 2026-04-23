@@ -13,5 +13,13 @@ jobs:
             - name: checkout code
               uses: actions/checkout@v4
 
-            - name: print
-              run: echo " tesknkg"
+            - name: Setup jave
+              uses: actions/setup-java@v4
+              with: 
+                version: '17'
+                distribution: 'temurin'
+
+            - name: Build and test
+              run: mvn clean test
+
+            
