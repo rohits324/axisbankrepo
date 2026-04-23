@@ -10,7 +10,7 @@ public class AxisApplication {
 
     @GetMapping("/")
     public String home() {
-        return "Hello from Spring Boot CI/CD!";
+        return "Hello, Testing from Axis Bank!";
     }
 
     public static void main(String[] args) {
