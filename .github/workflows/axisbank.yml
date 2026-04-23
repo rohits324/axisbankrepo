@@ -23,9 +23,9 @@ jobs:
               working-directory: axisbank
               run: mvn clean package
 
-            - name: Build and test
-              working-directory: axisbank
-              run: mvn clean test
+            # - name: Build and test
+            #   working-directory: axisbank
+            #   run: mvn clean test
 
             - name: Build Image into Docker
               working-directory: axisbank
