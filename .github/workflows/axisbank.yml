@@ -1,0 +1,26 @@
+name: axisbank application deployment
+
+on:
+    push:
+        branches: ["main"]
+
+jobs:
+    build:
+        runs-on: ununtu-latest
+
+        steps:
+
+        - name: checkout code
+          uses: actions/checkout@v4
+
+        - name: print name
+          run: echo "this is for testing"
+
+        - name: checking
+          run: |
+            echo" working good"
+            ls -la
+
+
+
+
