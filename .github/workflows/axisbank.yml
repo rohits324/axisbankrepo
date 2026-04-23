@@ -19,8 +19,27 @@ jobs:
                 java-version: '17'
                 distribution: 'temurin'
 
+            - name: Build Code
+              working-directory: axisbank
+              run: mvn clean package
+
             - name: Build and test
               working-directory: axisbank
               run: mvn clean test
 
+            - name: Build Image into Docker
+              working-directory: DemoAPP
+              run: docker build -t demo-app:${GITHUB_RUN_NUMBER} .
+      
+            - name: Check image file
+              run: docker image ls
+      
+            - name: Docker Login
+              run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      
+            - name: Tag name
+              run: docker tag demo-app:${{ github.run_number }} rohitkumar4praja/axisbank-app:${{ github.run_number }}
+      
+            - name: push Image
+              run: docker push rohitkumar4praja/axisbank-app:${{ github.run_number }}
             
