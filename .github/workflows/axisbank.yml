@@ -20,6 +20,7 @@ jobs:
                 distribution: 'temurin'
 
             - name: Build and test
+              working-directory: axisbank
               run: mvn clean test
 
             
