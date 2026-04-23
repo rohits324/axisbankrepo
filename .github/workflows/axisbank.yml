@@ -28,8 +28,8 @@ jobs:
               run: mvn clean test
 
             - name: Build Image into Docker
-            #   working-directory: axisbank
-              run: docker build -t axisbank-app:${GITHUB_RUN_NUMBER} -f axisbank/Dockerfile axisbank
+              working-directory: axisbank
+              run: docker build -t axisbank-app:${GITHUB_RUN_NUMBER} .  #-f axisbank/Dockerfile axisbank
       
             - name: Check image file
               run: docker image ls
