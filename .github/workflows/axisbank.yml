@@ -84,12 +84,31 @@ jobs:
                   echo "Step 3: Health check"
                   SUCCESS=false
 
-                  for i in {1..5}; do
+                  # for i in {1..5}; do
+                  #   if curl -f http://localhost:8080/health; then
+                  #     SUCCESS=true
+                  #     break
+                  #   fi
+                  #   echo "Retry $i..."
+                  #   sleep 5
+                  # done
+                  PASS_COUNT=0
+
+                  for i in {1..6}; do
+                    echo "Health check attempt $i..."
+
                     if curl -f http://localhost:8080/health; then
+                      PASS_COUNT=$((PASS_COUNT + 1))
+                    else
+                      PASS_COUNT=0
+                    fi
+
+                    # require 3 consecutive successes
+                    if [ $PASS_COUNT -ge 3 ]; then
                       SUCCESS=true
                       break
                     fi
-                    echo "Retry $i..."
+
                     sleep 5
                   done
 
