@@ -1,4 +1,4 @@
-name: kjnjkna
+name: Deploying Java Trail Application into the Ec2
 
 on:
     push:
