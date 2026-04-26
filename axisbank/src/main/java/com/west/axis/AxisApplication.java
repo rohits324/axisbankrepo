@@ -10,7 +10,7 @@ public class AxisApplication {
 
     @GetMapping("/")
     public String home() {
-        return "Hello, Testing from Axis Bank!";
+        return "Hello, Testing from Axis Bank! tbis is the new appplication from the Ec2";
     }
 
     public static void main(String[] args) {
