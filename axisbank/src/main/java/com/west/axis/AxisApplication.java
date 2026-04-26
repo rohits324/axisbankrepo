@@ -3,6 +3,7 @@ package com.west.axis;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
+import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
 @RestController
@@ -10,7 +11,7 @@ public class AxisApplication {
 
     @GetMapping("/")
     public String home() {
-        return "Hello, Testing from Axis Bank!  application not roll backed";
+        return "Hello, Testing from Axis Bank!  application not roll backed trail 2";
     }
 
     // @GetMapping("/health")
@@ -26,6 +27,16 @@ public class AxisApplication {
         }
 
         return "OK";
+    }
+
+    @PostConstruct
+    public void init() {
+
+        String failStartup = System.getenv("FAIL_STARTUP");
+
+        if ("true".equals(failStartup)) {
+            throw new RuntimeException("Simulated startup failure for rollback test");
+        }
     }
 
     public static void main(String[] args) {
