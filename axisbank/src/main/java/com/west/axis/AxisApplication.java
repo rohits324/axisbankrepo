@@ -10,8 +10,7 @@ public class AxisApplication {
 
     @GetMapping("/")
     public String home() {
-        return "Hello, Testing from Axis Bank! tbis is the new appplication from the Ec2
-        if failed then rollback";
+        return "Hello, Testing from Axis Bank! tbis is the new appplication from the Ec2 if failed then rollback";
     }
 
     @GetMapping("/health")
