@@ -57,8 +57,8 @@ jobs:
                 key: ${{ secrets.EC2_KEY }}
                 script: |
                   docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-                  docker pull your-dockerhub-username/axisbank-app:${{ github.run_number }}
+                  docker pull rohitkumar4praja/axisbank-app:${{ github.run_number }}
                   docker stop axisbank || true
                   docker rm axisbank || true
-                  docker run -d -p 8080:8080 --name axisbank your-dockerhub-username/axisbank-app:${{ github.run_number }}
+                  docker run -d -p 8080:8080 --name axisbank rohitkumar4praja/axisbank-app:${{ github.run_number }}
             
