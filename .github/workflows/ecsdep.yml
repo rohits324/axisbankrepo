@@ -14,7 +14,7 @@ jobs:
             ECS_CLUSTER: axisbank-cluster
             ECS_SERVICE: axisbank-service
             CONTAINER_NAME: axisbank-container
-            TASK_DEFINITION: task-definition.json
+            TASK_DEFINITION: axisbank/task-definition.json
 
         steps:
 
@@ -67,7 +67,7 @@ jobs:
                 image: ${{ steps.build-image.outputs.image }}
 
             
-            # ✅ Deploy to ECS
+            #  Deploy to ECS
             - name: Deploy to ECS Service
               uses: aws-actions/amazon-ecs-deploy-task-definition@v1
               with:
