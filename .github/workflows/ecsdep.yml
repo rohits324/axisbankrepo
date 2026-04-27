@@ -11,10 +11,10 @@ jobs:
         env:
             AWS_REGION: us-east-1
             ECR_REPOSITORY: axisbankapp-repo
-            # ECS_CLUSTER: axisbank-cluster
-            # ECS_SERVICE: axisbank-service
-            # CONTAINER_NAME: axisbank-container
-            # TASK_DEFINITION: task-definition.json
+            ECS_CLUSTER: axisbank-cluster
+            ECS_SERVICE: axisbank-service
+            CONTAINER_NAME: axisbank-container
+            TASK_DEFINITION: task-definition.json
 
         steps:
 
@@ -55,5 +55,25 @@ jobs:
                 docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
                 docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
                 echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+
+             #  Update ECS Task Definition
+            - name: Update Task Definition
+              id: task-def
+              uses: aws-actions/amazon-ecs-render-task-definition@v1
+              with:
+                task-definition: ${{ env.TASK_DEFINITION }}
+                container-name: ${{ env.CONTAINER_NAME }}
+                image: ${{ steps.build-image.outputs.image }}
+
+            
+            # ✅ Deploy to ECS
+            - name: Deploy to ECS Service
+              uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+              with:
+                task-definition: ${{ steps.task-def.outputs.task-definition }}
+                service: ${{ env.ECS_SERVICE }}
+                cluster: ${{ env.ECS_CLUSTER }}
+                wait-for-service-stability: true
         
 
