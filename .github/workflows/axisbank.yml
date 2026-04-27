@@ -133,3 +133,65 @@
 #                   fi
 
 
+
+
+
+name: Deploying into ECS
+
+on:
+    push:
+        branches: ["main"]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        env:
+            AWS_REGION: us-east-1
+            ECR_REPOSITORY: axisbankapp-repo
+            # ECS_CLUSTER: axisbank-cluster
+            # ECS_SERVICE: axisbank-service
+            # CONTAINER_NAME: axisbank-container
+            # TASK_DEFINITION: task-definition.json
+
+        steps:
+
+            - name: Checkoutcode
+              uses: actions/checkout@v4
+
+            - name: Setupjava
+              uses: actions/java-setup@v4
+              with:
+                java-version: '17'
+                distribution: 'temurin'
+
+            - name: Buildcode
+              working-directory: axisbank
+              run: mvn clean package
+
+            # AWS Login
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v2
+              with:
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                aws-region: ${{ env.AWS_REGION }}
+
+             #  ECR Login
+            - name: Login to ECR
+              id: login-ecr
+              uses: aws-actions/amazon-ecr-login@v2
+
+              #  Build & Push to ECR
+            - name: Build and Push Docker Image
+              id: build-image
+              working-directory: axisbank
+              env:
+                ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                IMAGE_TAG: ${{ github.run_number }}
+              run: |
+                docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+                docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+                echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+        
+
